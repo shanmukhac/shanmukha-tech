@@ -35,6 +35,8 @@ resource "aws_cloudfront_distribution" "websiteDistribution" {
   origin {
     domain_name = aws_s3_bucket.websiteHosting.bucket_regional_domain_name
     origin_id   = "S3-portfolio-website-one"
+
+    origin_access_control_id = aws_cloudfront_origin_access_control.oac.id
   }
 
   enabled             = true
@@ -72,4 +74,50 @@ resource "aws_cloudfront_distribution" "websiteDistribution" {
   viewer_certificate {
     cloudfront_default_certificate = true
   }
+}
+
+resource "aws_cloudfront_origin_access_control" "oac" {
+  name = "portfolio-website-one-oac"
+  origin_access_control_origin_type = "s3"
+  signing_behavior = "always"
+  signing_protocol = "sigv4"
+  
+}
+
+resource "aws_s3_object" "portfolioSite" {
+
+  for_each = fileset("${path.module}/NewPortfolio","**/*")
+  bucket = aws_s3_bucket.websiteHosting.bucket
+  key    = each.value
+  source = "${path.module}/NewPortfolio/${each.value}"
+  etag   = filemd5("${path.module}/NewPortfolio/${each.value}")
+
+  content_type = lookup(local.mime_types, reverse(split(".", each.value))[0],"application/octet-stream")
+}
+
+resource "aws_s3_bucket_policy" "s3_policy" {
+  bucket = aws_s3_bucket.websiteHosting.id
+  policy = jsonencode({
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Statement1",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "cloudfront.amazonaws.com"
+      },
+      "Action": [
+        "s3:GetObject",
+        # "s3:ListBucket"
+      ],
+      "Resource": "${aws_s3_bucket.websiteHosting.arn}/*"
+
+      Condition = {
+          StringEquals = {
+            "AWS:SourceArn" = aws_cloudfront_distribution.websiteDistribution.arn
+          }
+        }
+    }
+  ]
+})
 }

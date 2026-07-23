@@ -6,6 +6,7 @@ resume-site/
 ├── css/
 │   └── style.css        # All styling (theme colors, layout, fonts)
 ├── assets/
+│   ├── Shanmukha_DevOps_Resume.pdf   # One-page downloadable resume (linked in nav + hero)
 │   ├── certs/            # Put real certification badge/logo images here
 │   └── icons/            # Optional: favicon or extra icons here
 └── README.md
@@ -18,6 +19,12 @@ resume-site/
 - Projects (GitHub links): index.html, id="projects" — update each <a class="project-card" href="...">
 - Socials: index.html, id="contact"
 - Colors/fonts: css/style.css, the :root variables at the top
+
+## Updating the resume PDF
+The PDF at assets/Shanmukha_DevOps_Resume.pdf is a placeholder-filled draft matching the
+site content. To replace it: generate/export your real one-pager with the same filename
+and drop it into assets/ — the download buttons in the nav bar and hero don't need any
+code changes as long as the filename stays the same.
 
 ## Run locally
 Just open index.html in a browser — no build step needed.
