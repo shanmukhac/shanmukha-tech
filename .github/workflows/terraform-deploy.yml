@@ -12,7 +12,7 @@ jobs:
   terraform-apply:
     runs-on: ubuntu-latest
 
-    environment: Dev
+    environment: awsDev
 
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
