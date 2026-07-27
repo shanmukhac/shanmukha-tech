@@ -15,6 +15,7 @@ permissions:
 jobs:
   terraform-ci:
     runs-on: ubuntu-latest
+    environment: awsDev
 
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -28,6 +29,22 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: eu-north-1
+
+      - name: Check AWS environment
+        run: |
+          echo "Access key length: ${#AWS_ACCESS_KEY_ID}"
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "AWS_ACCESS_KEY_ID is missing"
+          else
+            echo "AWS_ACCESS_KEY_ID is present"
+          fi
+
       - name: Terraform Init
         run: terraform init
 
@@ -35,4 +52,4 @@ jobs:
         run: terraform validate
 
       - name: Terraform plan
-        run: terraform -no-color
+        run: terraform plan -no-color
