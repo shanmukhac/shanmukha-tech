@@ -28,6 +28,15 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
+      - name: Check AWS environment
+        run: |
+          echo "Access key length: ${#AWS_ACCESS_KEY_ID}"
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "AWS_ACCESS_KEY_ID is missing"
+          else
+            echo "AWS_ACCESS_KEY_ID is present"
+          fi
+
       - name: Terraform Init
         run: terraform init
 
