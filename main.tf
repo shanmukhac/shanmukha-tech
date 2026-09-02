@@ -1,8 +1,17 @@
 terraform {
   required_providers {
     aws = {
-        version = "~> 6.0"
+      source = "hashicorp/aws"
+      version = "~> 6.0"
     }
+  }
+
+  backend "s3" {
+    bucket       = "shanmukha-tech-statelocking"
+    key          = "portfolio/terraform.tfstate"
+    region       = "ap-south-1"
+    use_lockfile = true
+    encrypt      = true
   }
 }
 
@@ -10,13 +19,14 @@ provider "aws" {
   region = "ap-south-1"
 }
 
-# provider "aws" {
-#   alias  = "virginia"
-#   region = "us-east-1"
-# }
+provider "aws" {
+  alias  = "virginia"
+  region = "us-east-1"
+}
+
 
 resource "aws_s3_bucket" "websiteHosting" {
-  bucket = "portfolio-website-one"
+  bucket = "portfolio-website-shanmukha-tech"
 
   tags = {
     Name        = "portfolio"
@@ -24,17 +34,34 @@ resource "aws_s3_bucket" "websiteHosting" {
   }
 }
 
-# resource "aws_acm_certificate" "cert" {
-#   provider = aws.virginia
+resource "aws_acm_certificate" "cert" {
+  provider = aws.virginia
 
-#   domain_name       = "somala.co.in"
-#   validation_method = "DNS"
-# }
+  domain_name       = "shanmukha.tech"
+
+  subject_alternative_names = [
+    "www.shanmukha.tech",
+    "shanmukhas.in",
+    "www.shanmukhas.in"
+  ]
+
+  validation_method = "DNS"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_acm_certificate_validation" "cert_validation" {
+  provider = aws.virginia
+
+  certificate_arn = aws_acm_certificate.cert.arn
+}
 
 resource "aws_cloudfront_distribution" "websiteDistribution" {
   origin {
     domain_name = aws_s3_bucket.websiteHosting.bucket_regional_domain_name
-    origin_id   = "S3-portfolio-website-one"
+    origin_id   = "S3-portfolio-website-shanmukha-tech"
 
     origin_access_control_id = aws_cloudfront_origin_access_control.oac.id
   }
@@ -44,10 +71,17 @@ resource "aws_cloudfront_distribution" "websiteDistribution" {
   comment             = "Portfolio Website Distribution"
   default_root_object = "index.html"
 
+  aliases = [
+    "shanmukha.tech",
+    "www.shanmukha.tech",
+    "shanmukhas.in",
+    "www.shanmukhas.in"
+  ]
+
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "S3-portfolio-website-one"
+    target_origin_id = "S3-portfolio-website-shanmukha-tech"
 
     forwarded_values {
       query_string = false
@@ -72,12 +106,14 @@ resource "aws_cloudfront_distribution" "websiteDistribution" {
   }
 
   viewer_certificate {
-    cloudfront_default_certificate = true
-  }
+  acm_certificate_arn      = aws_acm_certificate_validation.cert_validation.certificate_arn
+  ssl_support_method       = "sni-only"
+  minimum_protocol_version = "TLSv1.2_2021"
+}
 }
 
 resource "aws_cloudfront_origin_access_control" "oac" {
-  name = "portfolio-website-one-oac"
+  name = "portfolio-website-shanmukha-tech-oac"
   origin_access_control_origin_type = "s3"
   signing_behavior = "always"
   signing_protocol = "sigv4"
@@ -86,11 +122,11 @@ resource "aws_cloudfront_origin_access_control" "oac" {
 
 resource "aws_s3_object" "portfolioSite" {
 
-  for_each = fileset("${path.module}/NewPortfolio","**/*")
+  for_each = fileset("${path.module}/shanmukha-tech","**/*")
   bucket = aws_s3_bucket.websiteHosting.bucket
   key    = each.value
-  source = "${path.module}/NewPortfolio/${each.value}"
-  etag   = filemd5("${path.module}/NewPortfolio/${each.value}")
+  source = "${path.module}/shanmukha-tech/${each.value}"
+  etag   = filemd5("${path.module}/shanmukha-tech/${each.value}")
 
   content_type = lookup(local.mime_types, reverse(split(".", each.value))[0],"application/octet-stream")
 }
