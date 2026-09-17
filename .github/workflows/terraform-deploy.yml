@@ -31,8 +31,13 @@ jobs:
       - name: Terraform Apply
         run: terraform apply --auto-approve
 
+      - name: Get CloudFront Distribution ID
+        id: cloudfront
+        run: |
+          echo "distribution_id=$(terraform output -raw cloudfront_distribution_id)" >> "$GITHUB_OUTPUT"
+
       - name: Invalidate CloudFront Cache
         run: |
           aws cloudfront create-invalidation \
-            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --distribution-id ${{ steps.cloudfront.outputs.distribution_id }} \
             --paths "/*"
