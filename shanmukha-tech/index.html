@@ -22,10 +22,7 @@
     <a class="tab" href="#certifications">certifications</a>
     <a class="tab" href="#contact">contact</a>
   </nav>
-  <!-- Replace the href below with your actual Google Drive "view" link,
-       e.g. https://drive.google.com/file/d/1dHy4QUrtgDfbXy6TVg0ZnDCFoSsvsnTI/view?usp=drive_link
-       Keep target="_blank" so it opens the Drive preview, not a direct download. -->
-  <a class="resfile js-resume-link" href="https://drive.google.com/file/d/1dHy4QUrtgDfbXy6TVg0ZnDCFoSsvsnTI/view?usp=drive_link" target="_blank" rel="noopener">./resume.pdf</a>
+  <a class="resfile js-pdf-link" data-title="resume.pdf" href="https://drive.google.com/file/d/1dHy4QUrtgDfbXy6TVg0ZnDCFoSsvsnTI/view?usp=drive_link" target="_blank" rel="noopener">./resume.pdf</a>
   <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">./theme light</button>
 </div>
 
@@ -41,13 +38,13 @@
           at 3AM. AWS, GCP and GenAI certified.</p>
         <div class="cta-row">
           <a href="#experience" class="btn btn-outline">./view experience</a>
-          <a href="https://drive.google.com/file/d/1dHy4QUrtgDfbXy6TVg0ZnDCFoSsvsnTI/view?usp=drive_link" target="_blank" rel="noopener" class="btn btn-solid js-resume-link">./view resume</a>
+          <a href="https://drive.google.com/file/d/1dHy4QUrtgDfbXy6TVg0ZnDCFoSsvsnTI/view?usp=drive_link" target="_blank" rel="noopener" class="btn btn-solid js-pdf-link" data-title="resume.pdf">./view resume</a>
         </div>
       </div>
 
       <div class="monitor">
         <div class="mtitle">system.status — live</div>
-        <div class="row"><span class="k">role</span><span class="v">devops / sre</span></div>
+        <div class="row"><span class="k">role</span><span class="v">devops</span></div>
         <div class="row"><span class="k">current</span><span class="v">accenture</span></div>
         <div class="row"><span class="k">cloud</span><span class="v">aws, gcp, azure</span></div>
         <div class="row"><span class="k">certs</span><span class="v">3 active</span></div>
@@ -80,11 +77,11 @@
   <section id="stack" class="reveal">
     <div class="comment"># ls -la ~/stack</div>
     <table class="listing">
-      <tr><td class="perm">drwxr-xr-x</td><td class="fname">containers/</td><td class="items"><span>Docker</span><span>Kubernetes</span><span>Helm</span><span>kubectl</span></td></tr>
       <tr><td class="perm">drwxr-xr-x</td><td class="fname">cloud/</td><td class="items"><span>AWS</span><span>GCP</span><span>Azure</span></td></tr>
       <tr><td class="perm">drwxr-xr-x</td><td class="fname">cicd/</td><td class="items"><span>GitHub Actions</span><span>Jenkins</span><span>Git</span></td></tr>
-      <tr><td class="perm">drwxr-xr-x</td><td class="fname">observability/</td><td class="items"><span>CloudWatch</span><span>Grafana</span><span>Prometheus</span></td></tr>
       <tr><td class="perm">drwxr-xr-x</td><td class="fname">automation/</td><td class="items"><span>Bash</span><span>Python</span><span>Terraform</span></td></tr>
+      <tr><td class="perm">drwxr-xr-x</td><td class="fname">containers/</td><td class="items"><span>Docker</span><span>Kubernetes</span><span>Helm</span><span>kubectl</span></td></tr>
+      <tr><td class="perm">drwxr-xr-x</td><td class="fname">observability/</td><td class="items"><span>CloudWatch</span><span>Grafana</span><span>Prometheus</span></td></tr>
       <tr><td class="perm">drwxr-xr-x</td><td class="fname">genai/</td><td class="items"><span>LLM tooling</span><span>Prompt workflows</span><span>AI-assisted ops</span></td></tr>
     </table>
   </section>
@@ -121,24 +118,25 @@
     </div>
   </section>
 
-  <section id="certifications" class="reveal">
-    <div class="comment"># certs --list --verify</div>
+    <section id="certifications" class="reveal">
+    <div class="comment"># certs --list --verify — click a cert to view the PDF</div>
+    <!-- Replace each href below with that certificate's own Google Drive "view" link -->
     <div class="cert-log">
-      <div class="cert-item">
+      <a class="cert-item js-pdf-link" href="https://drive.google.com/file/d/1r9-gwIMExVrd4188wWsFgASLLBZb12TP/view?usp=drive_link" data-title="aws-certified.pdf">
         <span class="code">CERT/AWS</span>
-        <span><span class="name">AWS Certified</span><div class="desc">Core AWS services, cloud architecture and operational best practices.</div></span>
+        <span><span class="name">AWS Certified Solutions Architect - Associate</span><div class="desc">Core AWS services, cloud architecture and operational best practices.</div></span>
         <span class="ok">[ verified ]</span>
-      </div>
-      <div class="cert-item">
+      </a>
+      <a class="cert-item js-pdf-link" href="https://drive.google.com/file/d/1oPxzfvTaJRPDo6pwGri5J0Zm1nQT8897/view?usp=drive_link" data-title= "gcp-certified.pdf">
         <span class="code">CERT/GCP</span>
-        <span><span class="name">Google Cloud Certified</span><div class="desc">Google Cloud infrastructure, deployment and resource management.</div></span>
+        <span><span class="name">Google Cloud Certified Professional Cloud Architect</span><div class="desc">Google Cloud infrastructure, deployment and resource management.</div></span>
         <span class="ok">[ verified ]</span>
-      </div>
-      <div class="cert-item">
+      </a>
+      <a class="cert-item js-pdf-link" href="https://drive.google.com/file/d/1wAmPSuBM3DWnUpbkWYGUEssUgkDl3x_m/view?usp=drive_link" data-title="genai-certified.pdf">
         <span class="code">CERT/GENAI</span>
-        <span><span class="name">GenAI Certified</span><div class="desc">Generative AI concepts applied to real engineering workflows.</div></span>
+        <span><span class="name">Google Cloud Certified Generative AI Leader</span><div class="desc">Generative AI concepts applied to real engineering workflows.</div></span>
         <span class="ok">[ verified ]</span>
-      </div>
+      </a>
     </div>
   </section>
 
@@ -146,7 +144,6 @@
     <div class="comment"># contact --send</div>
     <div class="term-out">Open to DevOps, Platform and SRE roles.</div>
 
-    <!-- Replace the LinkedIn and GitHub hrefs below with your real profile URLs -->
     <div class="social-row">
       <a class="social-btn" href="https://www.linkedin.com/in/sshanmukha/" target="_blank" rel="noopener" aria-label="LinkedIn">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.11 20.45H3.56V9h3.55v11.45z"/></svg>
@@ -159,7 +156,7 @@
       </a>
     </div>
     <div class="contact-grid">
-      <a class="cline js-email-link" href="mailto:shanmukha.somala@gmail.com" data-to="shanmukha.somala@gmail.com" data-subject="Opportunity — DevOps/Platform/SRE role" id="emailLine">
+      <a class="cline js-email-link" href="mailto:shanmukha.somala@gmail.com" data-to="shanmukha.somala@gmail.com" data-subject="Opportunity - DevOps/Platform/SRE role" id="emailLine">
         <span><span class="k">email</span><div class="v">shanmukha.somala@gmail.com</div></span>
         <span class="copied-tag" id="copiedTag">click to email</span>
       </a>
@@ -167,7 +164,7 @@
         <span><span class="k">phone</span><div class="v">+91 9494073279</div></span>
       </a>
       <div class="cline"><span><span class="k">location</span><div class="v">bengaluru, india</div></span></div>
-      <a class="cline js-resume-link" href="https://drive.google.com/file/d/1dHy4QUrtgDfbXy6TVg0ZnDCFoSsvsnTI/view?usp=drive_link" target="_blank" rel="noopener"><span><span class="k">resume</span><div class="v">view resume</div></span></a>
+      <a class="cline js-pdf-link" data-title="resume.pdf" href="https://drive.google.com/file/d/1dHy4QUrtgDfbXy6TVg0ZnDCFoSsvsnTI/view?usp=drive_link" target="_blank" rel="noopener"><span><span class="k">resume</span><div class="v">view resume</div></span></a>
     </div>
   </section>
 </main>
@@ -184,12 +181,12 @@
   <div class="resume-modal-panel" role="dialog" aria-modal="true" aria-label="Resume preview">
     <div class="resume-modal-bar">
       <div class="dots"><span></span><span></span><span></span></div>
-      <span class="path">resume.pdf</span>
+      <span class="path" id="resumeModalTitle">resume.pdf</span>
       <a id="resumeOpenNew" class="resfile" href="#" target="_blank" rel="noopener">open in drive ↗</a>
       <button class="theme-toggle" id="resumeClose" aria-label="Close resume preview">./close</button>
     </div>
     <iframe id="resumeFrame" src="" title="Resume PDF preview" loading="lazy"></iframe>
-    </div>
+  </div>
 </div>
 
 <script src="script.js"></script>

@@ -132,14 +132,15 @@ const tabs = Array.from(document.querySelectorAll('.tab'));
     }
   });
 
-  // Resume: open Drive PDF inline in a modal instead of navigating away.
-  (function resumeModal(){
+  // Resume + certifications: open Drive PDFs inline in a modal instead of navigating away.
+  (function pdfModal(){
     const modal = document.getElementById('resumeModal');
     const backdrop = document.getElementById('resumeBackdrop');
     const closeBtn = document.getElementById('resumeClose');
     const frame = document.getElementById('resumeFrame');
     const openNew = document.getElementById('resumeOpenNew');
-    const triggers = document.querySelectorAll('.js-resume-link');
+    const titleEl = document.getElementById('resumeModalTitle');
+    const triggers = document.querySelectorAll('.js-pdf-link');
     if (!modal || !triggers.length) return;
 
     function toPreviewUrl(driveViewUrl){
@@ -147,9 +148,10 @@ const tabs = Array.from(document.querySelectorAll('.tab'));
       return driveViewUrl.replace(/\/view(\?.*)?$/, '/preview');
     }
 
-    function openModal(driveUrl){
+    function openModal(driveUrl, title){
       frame.src = toPreviewUrl(driveUrl);
       openNew.href = driveUrl;
+      if (titleEl) titleEl.textContent = title || 'document.pdf';
       modal.classList.add('open');
       modal.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
@@ -166,7 +168,7 @@ const tabs = Array.from(document.querySelectorAll('.tab'));
     triggers.forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
-        openModal(link.getAttribute('href'));
+        openModal(link.getAttribute('href'), link.dataset.title);
       });
     });
 
